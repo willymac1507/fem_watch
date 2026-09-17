@@ -16,8 +16,8 @@ defineProps<{
 
 defineOptions({
     layout: {
-        title: 'Create an account',
-        description: 'Enter your details below to create your account',
+        title: 'Sign up',
+        description: '',
     },
 });
 </script>
@@ -33,7 +33,6 @@ defineOptions({
     >
         <div class="grid gap-6">
             <div class="grid gap-2">
-                <Label for="name">Name</Label>
                 <Input
                     id="name"
                     type="text"
@@ -48,7 +47,6 @@ defineOptions({
             </div>
 
             <div class="grid gap-2">
-                <Label for="email">Email address</Label>
                 <Input
                     id="email"
                     type="email"
@@ -56,13 +54,12 @@ defineOptions({
                     :tabindex="2"
                     autocomplete="email"
                     name="email"
-                    placeholder="email@example.com"
+                    placeholder="Email address"
                 />
                 <InputError :message="errors.email" />
             </div>
 
             <div class="grid gap-2">
-                <Label for="password">Password</Label>
                 <PasswordInput
                     id="password"
                     required
@@ -76,7 +73,6 @@ defineOptions({
             </div>
 
             <div class="grid gap-2">
-                <Label for="password_confirmation">Confirm password</Label>
                 <PasswordInput
                     id="password_confirmation"
                     required
@@ -91,21 +87,21 @@ defineOptions({
 
             <Button
                 type="submit"
-                class="mt-2 w-full"
+                class="py-6 mt-4 w-full font-normal bg-app-primary hover:bg-app-icon-active text-white hover:bg-app-primary/90 text-body-m"
                 tabindex="5"
                 :disabled="processing"
                 data-test="register-user-button"
             >
                 <Spinner v-if="processing" />
-                Create account
+                Create an account
             </Button>
         </div>
 
-        <div class="text-muted-foreground text-center text-sm">
+        <div class="text-app-icon-active text-center text-sm">
             Already have an account?
             <TextLink
                 :href="login()"
-                class="underline underline-offset-4"
+                class="text-app-primary"
                 :tabindex="6"
                 >Log in</TextLink
             >
