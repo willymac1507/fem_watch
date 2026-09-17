@@ -10,16 +10,15 @@ import {
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import type { NavItem } from '@/types';
 
-defineProps<{
+const props = defineProps<{
     items: NavItem[];
 }>();
-
+console.log(props.items)
 const { isCurrentUrl } = useCurrentUrl();
 </script>
 
 <template>
     <SidebarGroup class="px-2 py-0">
-        <SidebarGroupLabel>Platform</SidebarGroupLabel>
         <SidebarMenu>
             <SidebarMenuItem v-for="item in items" :key="item.title">
                 <SidebarMenuButton
@@ -28,7 +27,7 @@ const { isCurrentUrl } = useCurrentUrl();
                     :tooltip="item.title"
                 >
                     <Link :href="item.href">
-                        <component :is="item.icon" />
+                        <component :is="item.icon" :class="isCurrentUrl(item.href) ? 'text-app-icon-active' : 'text-app-icon-inactive'"/>
                         <span>{{ item.title }}</span>
                     </Link>
                 </SidebarMenuButton>
@@ -36,3 +35,4 @@ const { isCurrentUrl } = useCurrentUrl();
         </SidebarMenu>
     </SidebarGroup>
 </template>
+
