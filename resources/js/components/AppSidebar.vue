@@ -1,12 +1,10 @@
-<script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
-import {BookOpen, FolderGit2, LayoutGrid} from '@lucide/vue';
+<script lang="ts" setup>
+import {Link} from '@inertiajs/vue3';
 import AppLogo from '@/components/AppLogo.vue';
 import GridIcon from '@/components/GridIcon.vue';
 import FilmIcon from '@/components/FilmIcon.vue';
 import TvIcon from '@/components/TvIcon.vue';
 import BookmarkIcon from '@/components/BookmarkIcon.vue';
-import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import {
@@ -18,8 +16,8 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
-import type { NavItem } from '@/types';
+import {dashboard} from '@/routes';
+import type {NavItem} from '@/types';
 
 const mainNavItems: NavItem[] = [
     {
@@ -47,13 +45,13 @@ const mainNavItems: NavItem[] = [
 </script>
 
 <template>
-    <Sidebar collapsible="icon" variant="floating">
-        <SidebarHeader class = "my-8">
+    <Sidebar collapsible="none" variant="floating">
+        <SidebarHeader class="mt-8 mb-16">
             <SidebarMenu>
                 <SidebarMenuItem>
-                    <SidebarMenuButton size="lg" as-child class="bg-transparent">
+                    <SidebarMenuButton as-child class="bg-transparent" size="lg">
                         <Link :href="dashboard()">
-                            <AppLogo />
+                            <AppLogo/>
                         </Link>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -61,12 +59,12 @@ const mainNavItems: NavItem[] = [
         </SidebarHeader>
 
         <SidebarContent>
-            <NavMain :items="mainNavItems" />
+            <NavMain :items="mainNavItems"/>
         </SidebarContent>
 
         <SidebarFooter>
-            <NavUser />
+            <NavUser/>
         </SidebarFooter>
     </Sidebar>
-    <slot />
+    <slot/>
 </template>
