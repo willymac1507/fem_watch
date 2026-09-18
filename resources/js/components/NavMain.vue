@@ -13,7 +13,7 @@ const {isCurrentUrl} = useCurrentUrl();
 
 <template>
     <SidebarGroup class="px-2 py-0">
-        <SidebarMenu class="gap-10">
+        <SidebarMenu class="gap-8">
             <SidebarMenuItem v-for="item in items" :key="item.title">
                 <SidebarMenuButton
                     :is-active="isCurrentUrl(item.href)"

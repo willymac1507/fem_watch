@@ -1,10 +1,9 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import AppContent from '@/components/AppContent.vue';
 import AppShell from '@/components/AppShell.vue';
 import AppSidebar from '@/components/AppSidebar.vue';
-import AppSidebarHeader from '@/components/AppSidebarHeader.vue';
-import { Toaster } from '@/components/ui/sonner';
-import type { BreadcrumbItem } from '@/types';
+import {Toaster} from '@/components/ui/sonner';
+import type {BreadcrumbItem} from '@/types';
 
 type Props = {
     breadcrumbs?: BreadcrumbItem[];
@@ -17,11 +16,10 @@ withDefaults(defineProps<Props>(), {
 
 <template>
     <AppShell variant="sidebar">
-        <AppSidebar />
-        <AppContent variant="sidebar" class="min-w-0 overflow-x-clip">
-            <AppSidebarHeader :breadcrumbs="breadcrumbs" />
-            <slot />
+        <AppSidebar/>
+        <AppContent class="min-w-0 overflow-x-clip" variant="sidebar">
+            <slot/>
         </AppContent>
-        <Toaster />
+        <Toaster/>
     </AppShell>
 </template>

@@ -16,13 +16,13 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import {dashboard} from '@/routes';
+import {home} from '@/routes';
 import type {NavItem} from '@/types';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
-        href: dashboard(),
+        title: 'Home',
+        href: home(),
         icon: GridIcon,
     },
     {
@@ -46,11 +46,11 @@ const mainNavItems: NavItem[] = [
 
 <template>
     <Sidebar collapsible="none" variant="floating">
-        <SidebarHeader class="mt-8 mb-16">
+        <SidebarHeader class="mt-8 mb-14">
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton as-child class="bg-transparent" size="lg">
-                        <Link :href="dashboard()">
+                        <Link :href="home()">
                             <AppLogo/>
                         </Link>
                     </SidebarMenuButton>
