@@ -2,8 +2,8 @@
 import {Link} from '@inertiajs/vue3';
 import AppLogo from '@/components/AppLogo.vue';
 import GridIcon from '@/components/GridIcon.vue';
-import FilmIcon from '@/components/FilmIcon.vue';
-import TvIcon from '@/components/TvIcon.vue';
+import MovieIcon from './MovieIcon.vue';
+import TvIcon from './TVIcon.vue';
 import BookmarkIcon from '@/components/BookmarkIcon.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
@@ -28,7 +28,7 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Films',
         href: {method: 'get', url: '/films'},
-        icon: FilmIcon,
+        icon: MovieIcon,
     },
     {
         title: 'TV',

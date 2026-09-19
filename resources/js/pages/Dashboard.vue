@@ -1,14 +1,35 @@
 <script lang="ts" setup>
-import {Head} from '@inertiajs/vue3';
+import {Head, Link} from '@inertiajs/vue3';
 import {home} from '@/routes';
 import {Input} from "@/components/ui/input";
 import searchIcon from "@/components/SearchIcon.vue";
+import movieIcon from "@/components/MovieIcon.vue";
+import tvIcon from "@/components/TVIcon.vue";
+import BookmarkIcon from "@/components/BookmarkIcon.vue";
 
 interface Props {
-    library: Object;
+    library: Array<items>;
 }
 
+interface items {
+    id: number;
+    title: string;
+    thumb_trending_large: string;
+    thumb_trending_small: string;
+    thumb_large: string;
+    thumb_small: string;
+    thumb_medium: string;
+    year: number;
+    category: string;
+    rating: string;
+    bookmarked: boolean;
+    trending: boolean;
+}
+
+const movieicon = movieIcon;
+const tvicon = tvIcon;
 const props = defineProps<Props>();
+const trending = props.library.filter(item => item.trending);
 
 
 defineOptions({
@@ -31,7 +52,7 @@ function submit() {
     <Head title="Home"/>
 
     <div
-        class="m-8 bg-app-card flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4 pt-12"
+        class="my-8 flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl pe-4 pt-12"
     >
         <form action="/search/all" method="post" @submit.prevent="submit">
             <label class="flex items-center gap-2" for="search">
@@ -45,12 +66,39 @@ function submit() {
 
         </form>
 
-        <div class="w-full max-w-screen bg-app-icon-inactive size-fit">
+        <div class="flex flex-col w-full max-w-screen h-1/4">
             <h2 class="text-heading-l">Trending</h2>
-            <div class="w-full h-4/5 flex flex-row gap-4 overflow-x-scroll">
-                <div v-for="item in library" class="h-full grow">
-                    <img :src="item.thumb_trending_large" alt="" class="h-full"/>
+            <div class="w-full overflow-hidden flex-1 min-h-0">
+                <div class="scroll-fade-x scrollbar-none overflow-x-auto h-full">
+                    <div class="flex w-max h-full gap-8 p-1.5">
+                        <div
+                            v-for="item in trending"
+                            :key="item.id"
+                            class="h-full shrink-0 relative">
+                            <Link :href="'/library/item/' + item.id">
+                                <img :src="item.thumb_trending_large" alt=""
+                                     class="rounded-lg block h-full w-auto">
+                                <div class="hidden absolute inset-3 lg:flex flex-col justify-end shrink">
+                                    <div class="text-body-m flex flex-row gap-2">
+                                        <div>{{ item.year }}</div>
+                                        <component :is="item.category === 'Movie' ? movieicon : tvicon"
+                                                   class="text-xs"/>
+                                        <div>{{ item.category }}</div>
+                                        <div>{{ item.rating }}</div>
+                                    </div>
+                                    <div class="text-heading-m">
+                                        {{ item.title }}
+                                    </div>
+                                </div>
+                                <div class="absolute inset-3 flex flex-col justify-top items-end">
+                                    <BookmarkIcon/>
+                                </div>
+                            </Link>
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
         </div>
         <!--        <div class="grid auto-rows-min gap-4 md:grid-cols-3">-->
