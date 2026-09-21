@@ -31,6 +31,19 @@ class LibraryController extends Controller
      */
     public function store(Request $request)
     {
+        $item = Library::findOrFail($request->id);
+        $item->update([
+            'bookmarked' => ! $item->bookmarked,
+        ]);
+
+        return redirect('/home')->with('success', 'Change applied');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Library $library)
+    {
         //
     }
 
@@ -46,14 +59,6 @@ class LibraryController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(Library $library)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Library $library)
     {
         //
     }

@@ -1,14 +1,25 @@
 <script lang="ts" setup>
-import {Head, Link} from '@inertiajs/vue3';
+import {Head, Link, router, usePage} from '@inertiajs/vue3';
 import {home} from '@/routes';
 import {Input} from "@/components/ui/input";
 import searchIcon from "@/components/SearchIcon.vue";
 import movieIcon from "@/components/MovieIcon.vue";
 import tvIcon from "@/components/TVIcon.vue";
-import BookmarkIcon from "@/components/BookmarkIcon.vue";
+import BookmarkEmptyIcon from "@/components/BookmarkEmptyIcon.vue";
+import BookmarkFullIcon from "@/components/BookmarkFullIcon.vue";
+import {Toaster} from "@/components/ui/sonner";
+import {computed, Reactive, useAttrs, watch} from "vue";
+import {toast} from "vue-sonner";
+
+interface Flash {
+    success: string | null | undefined;
+    error: string | null | undefined;
+    warning: string | null | undefined;
+}
 
 interface Props {
     library: Array<items>;
+    flash: Reactive<Flash>;
 }
 
 interface items {
@@ -26,11 +37,21 @@ interface items {
     trending: boolean;
 }
 
+const attrs = useAttrs();
+const page = usePage();
+
 const movieicon = movieIcon;
 const tvicon = tvIcon;
 const props = defineProps<Props>();
-const trending = props.library.filter(item => item.trending);
+const trending = computed(() => {
+    return props.library.filter(item => item.trending);
+});
 
+watch(() => props.flash.success, (message) => {
+    if (!message) return;
+    toast.success(message);
+    props.flash.success = null;
+})
 
 defineOptions({
     layout: {
@@ -46,13 +67,18 @@ defineOptions({
 function submit() {
     alert('submit');
 }
+
+function toggleBookmarked(id: number) {
+    router.post('/library/toggle-bookmark', {id: id});
+}
 </script>
+
 
 <template>
     <Head title="Home"/>
 
-    <div
-        class="my-8 flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl pe-4 pt-12"
+    <div class="my-8 flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl pe-4 pt-12"
+         v-bind="attrs"
     >
         <form action="/search/all" method="post" @submit.prevent="submit">
             <label class="flex items-center gap-2" for="search">
@@ -90,10 +116,13 @@ function submit() {
                                         {{ item.title }}
                                     </div>
                                 </div>
-                                <div class="absolute inset-3 flex flex-col justify-top items-end">
-                                    <BookmarkIcon/>
-                                </div>
                             </Link>
+                            <div class="absolute top-3 right-3 flex flex-col justify-top items-end">
+                                <button class="z-10 cursor-crosshair" @click="toggleBookmarked(item.id)">
+                                    <component :is="item.bookmarked ? BookmarkFullIcon : BookmarkEmptyIcon"/>
+                                </button>
+
+                            </div>
                         </div>
                     </div>
 
@@ -101,6 +130,7 @@ function submit() {
 
             </div>
         </div>
+        <Toaster/>
         <!--        <div class="grid auto-rows-min gap-4 md:grid-cols-3">-->
         <!--            <div-->
         <!--                class="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border"-->
