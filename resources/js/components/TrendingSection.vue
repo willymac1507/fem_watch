@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 
-import {Link, router} from "@inertiajs/vue3";
+import {Link} from "@inertiajs/vue3";
 import movieIcon from "@/components/icons/MovieIcon.vue";
 import tvIcon from "@/components/icons/TVIcon.vue";
-import BookmarkFullIcon from "@/components/icons/BookmarkFullIcon.vue";
-import BookmarkEmptyIcon from "@/components/icons/BookmarkEmptyIcon.vue";
+import ToggleBookmark from "./ToggleBookmark.vue";
 
 interface Props {
     trending: Array<items>;
@@ -29,10 +28,6 @@ defineProps<Props>();
 const movieicon = movieIcon;
 const tvicon = tvIcon;
 
-
-function toggleBookmarked(id: number) {
-    router.post('/library/toggle-bookmark', {id: id});
-}
 </script>
 
 <template>
@@ -64,12 +59,8 @@ function toggleBookmarked(id: number) {
                                 </div>
                             </div>
                         </Link>
-                        <div class="absolute top-3 right-3 flex flex-col justify-top items-end">
-                            <button class="z-10 cursor-crosshair" @click="toggleBookmarked(item.id)">
-                                <component :is="item.bookmarked ? BookmarkFullIcon : BookmarkEmptyIcon"/>
-                            </button>
-
-                        </div>
+                        <ToggleBookmark
+                            :item="item"/>
                     </div>
                 </div>
 

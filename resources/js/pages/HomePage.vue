@@ -7,7 +7,7 @@ import {Toaster} from "@/components/ui/sonner";
 import {computed, Reactive, useAttrs, watch} from "vue";
 import {toast} from "vue-sonner";
 import TrendingSection from "@/components/TrendingSection.vue";
-import RecommendedSection from "../components/RecommendedSection.vue";
+import RecommendedSection from "@/components/RecommendedSection.vue";
 
 interface Flash {
     success: string | null | undefined;
@@ -43,6 +43,10 @@ const trending = computed(() => {
     return props.library.filter(item => item.trending);
 });
 
+const recommended = computed(() => {
+    return props.library.filter(item => !item.trending);
+})
+
 watch(() => props.flash.success, (message) => {
     if (!message) return;
     toast.success(message);
@@ -68,7 +72,8 @@ function submit() {
 <template>
     <Head title="Home"/>
 
-    <div class="my-8 flex flex-1 flex-col gap-4 overflow-x-auto rounded-xl pe-4 pb-8 pt-12"
+    <div id="container"
+         class="scroll-fade-y scrollbar-none max-h-[calc(100vh-64px)] my-8 flex flex-1 flex-col gap-4 overflow-x-auto rounded-xl pe-4 pb-8 pt-12"
          v-bind="attrs"
     >
         <form action="/search/all" method="post" @submit.prevent="submit">
@@ -83,8 +88,10 @@ function submit() {
 
         </form>
 
+
         <TrendingSection :trending="trending" class="mb-4"/>
-        <RecommendedSection/>
+        <RecommendedSection :recommended="recommended"/>
         <Toaster/>
+
     </div>
 </template>
