@@ -23,7 +23,7 @@ const {isCurrentUrl} = useCurrentUrl();
                     <Link :href="item.href">
                         <component :is="item.icon"
                                    :class="isCurrentUrl(item.href) ? 'text-app-icon-active' : 'text-app-icon-inactive'"
-                                   class="!size-6 hover:text-app-primary hover:bg-transparent"
+                                   class="size-6! hover:text-app-primary hover:bg-transparent"
                         />
                     </Link>
                 </SidebarMenuButton>

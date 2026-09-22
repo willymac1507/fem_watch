@@ -13,7 +13,7 @@ class LibraryController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Dashboard', [
+        return Inertia::render('HomePage', [
             'library' => Library::all(),
         ]);
     }
@@ -36,7 +36,9 @@ class LibraryController extends Controller
             'bookmarked' => ! $item->bookmarked,
         ]);
 
-        return redirect('/home')->with('success', 'Change applied');
+        $message = $item->bookmarked ? $item->title.' has been added to your bookmarks' : $item->title.' has been removed from your bookmarks';
+
+        return redirect('/home')->with('success', $message);
     }
 
     /**

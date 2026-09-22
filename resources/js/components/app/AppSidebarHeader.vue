@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import type {BreadcrumbItem} from '@/types';
+import Breadcrumbs from 'resources/js/components/Breadcrumbs.vue';
+import type {BreadcrumbItem} from 'resources/js/types';
 
 withDefaults(
     defineProps<{

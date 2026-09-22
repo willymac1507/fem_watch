@@ -1,12 +1,8 @@
 <script lang="ts" setup>
 import {Link} from '@inertiajs/vue3';
-import AppLogo from '@/components/AppLogo.vue';
-import GridIcon from '@/components/GridIcon.vue';
-import MovieIcon from './MovieIcon.vue';
-import TvIcon from './TVIcon.vue';
-import BookmarkIcon from '@/components/BookmarkIcon.vue';
-import NavMain from '@/components/NavMain.vue';
-import NavUser from '@/components/NavUser.vue';
+import AppLogo from '@/components/app/AppLogo.vue';
+import NavMain from '@/components/nav/NavMain.vue';
+import NavUser from '@/components/nav/NavUser.vue';
 import {
     Sidebar,
     SidebarContent,
@@ -18,27 +14,31 @@ import {
 } from '@/components/ui/sidebar';
 import {home} from '@/routes';
 import type {NavItem} from '@/types';
+import HomeNavIcon from "../icons/HomeNavIcon.vue";
+import MovieNavIcon from "../icons/MovieNavIcon.vue";
+import TvNavIcon from "../icons/TvNavIcon.vue";
+import BookmarkNavIcon from "../icons/BookmarkNavIcon.vue";
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Home',
         href: home(),
-        icon: GridIcon,
+        icon: HomeNavIcon,
     },
     {
         title: 'Films',
         href: {method: 'get', url: '/films'},
-        icon: MovieIcon,
+        icon: MovieNavIcon,
     },
     {
         title: 'TV',
         href: {method: 'get', url: '/tv'},
-        icon: TvIcon,
+        icon: TvNavIcon,
     },
     {
         title: 'Bookmarks',
         href: {method: 'get', url: '/bookmarks'},
-        icon: BookmarkIcon,
+        icon: BookmarkNavIcon,
     },
 ];
 

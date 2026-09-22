@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import 'tailwindcss';
 @import 'shadcn-vue/tailwind.css';
 
@@ -194,4 +195,9 @@
     body {
         @apply bg-background text-foreground;
     }
+}
+
+.with-bullet::after {
+    margin-left: 6px;
+    content: "\2022";
 }

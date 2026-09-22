@@ -1,9 +1,9 @@
-<script setup lang="ts">
-import AppContent from '@/components/AppContent.vue';
-import AppHeader from '@/components/AppHeader.vue';
-import AppShell from '@/components/AppShell.vue';
-import { Toaster } from '@/components/ui/sonner';
-import type { BreadcrumbItem } from '@/types';
+<script lang="ts" setup>
+import AppContent from '../../components/app/AppContent.vue';
+import AppHeader from '../../components/app/AppHeader.vue';
+import AppShell from '../../components/app/AppShell.vue';
+import {Toaster} from '@/components/ui/sonner';
+import type {BreadcrumbItem} from '@/types';
 
 type Props = {
     breadcrumbs?: BreadcrumbItem[];
@@ -16,10 +16,10 @@ withDefaults(defineProps<Props>(), {
 
 <template>
     <AppShell variant="header">
-        <AppHeader :breadcrumbs="breadcrumbs" />
+        <AppHeader :breadcrumbs="breadcrumbs"/>
         <AppContent variant="header">
-            <slot />
+            <slot/>
         </AppContent>
-        <Toaster />
+        <Toaster/>
     </AppShell>
 </template>
