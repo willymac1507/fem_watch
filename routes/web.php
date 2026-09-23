@@ -7,7 +7,8 @@ Route::inertia('/', 'Welcome')->name('welcome');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/home', [LibraryController::class, 'index'])->name('home');
-    Route::post('/library/toggle-bookmark', [LibraryController::class, 'store'])->name('library.store');
+    Route::post('/home', [LibraryController::class, 'search'])->name('home.search');
+    Route::post('/library/toggle-bookmark', [LibraryController::class, 'update'])->name('library.update');
 });
 
 require __DIR__.'/settings.php';

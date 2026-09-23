@@ -1,13 +1,19 @@
 <script lang="ts" setup>
 
 import {Link} from "@inertiajs/vue3";
-import movieIcon from "@/components/icons/MovieIcon.vue";
-import tvIcon from "@/components/icons/TVIcon.vue";
 import ToggleBookmark from "./ToggleBookmark.vue";
+import type {Component} from "vue";
 
 interface Props {
     trending: Array<items>;
+    movieicon: Component;
+    tvicon: Component;
 }
+
+defineOptions({
+    inheritAttrs: false,
+});
+
 
 interface items {
     id: number;
@@ -25,8 +31,6 @@ interface items {
 }
 
 defineProps<Props>();
-const movieicon = movieIcon;
-const tvicon = tvIcon;
 
 </script>
 

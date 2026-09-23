@@ -11,10 +11,14 @@ class LibraryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->input('search');
+
         return Inertia::render('HomePage', [
             'library' => Library::all(),
+            'filtered' => $search ? Library::where('title', 'like', '%'.$search.'%')->get() : '',
+            'search' => $search,
         ]);
     }
 
@@ -31,22 +35,18 @@ class LibraryController extends Controller
      */
     public function store(Request $request)
     {
-        $item = Library::findOrFail($request->id);
-        $item->update([
-            'bookmarked' => ! $item->bookmarked,
-        ]);
-
-        $message = $item->bookmarked ? $item->title.' has been added to your bookmarks' : $item->title.' has been removed from your bookmarks';
-
-        return redirect('/home')->with('success', $message);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Library $library)
+    public function update(Request $request)
     {
-        //
+        $item = Library::findOrFail($request->id);
+        $item->update([
+            'bookmarked' => ! $item->bookmarked,
+        ]);
     }
 
     /**
@@ -71,5 +71,16 @@ class LibraryController extends Controller
     public function destroy(Library $library)
     {
         //
+    }
+
+    public function search()
+    {
+        if (! request('search')) {
+            return redirect('/home');
+        } else {
+            return Inertia::render('HomePage', [
+                'filtered' => Library::where('title', 'like', '%'.request('search').'%')->get(),
+            ]);
+        }
     }
 }

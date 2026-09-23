@@ -201,3 +201,11 @@
     margin-left: 6px;
     content: "\2022";
 }
+
+.in-quotes::before {
+    content: "\2018";
+}
+
+.in-quotes::after {
+    content: "\2019";
+}

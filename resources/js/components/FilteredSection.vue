@@ -1,10 +1,12 @@
 <script lang="ts" setup>
-import {Link} from "@inertiajs/vue3";
+
 import ToggleBookmark from "@/components/ToggleBookmark.vue";
+import {Link} from "@inertiajs/vue3";
 import type {Component} from "vue";
 
 interface Props {
-    recommended: Array<items>;
+    filtered: Array<items> | undefined;
+    filter: string
     movieicon: Component;
     tvicon: Component;
 }
@@ -30,9 +32,11 @@ defineProps<Props>();
 
 <template>
     <div class="flex flex-col w-full max-w-screen">
-        <h2 class="text-heading-l">Recommended For You</h2>
+        <h2 class="text-heading-l">Found <span v-if="filtered">{{ filtered.length }}</span><span v-else>0</span> results
+            for
+            <span class="in-quotes">{{ filter }}</span></h2>
         <div class="gap-6 w-full grid grid-cols-4 mt-2">
-            <div v-for="item in recommended" :key="item.id"
+            <div v-for="item in filtered" :key="item.id"
                  class="relative flex flex-col gap-1">
                 <div></div>
                 <Link :href="'/library/item/' + item.id">
