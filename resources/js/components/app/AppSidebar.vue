@@ -27,7 +27,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Films',
-        href: {method: 'get', url: '/films'},
+        href: {method: 'get', url: '/movies'},
         icon: MovieNavIcon,
     },
     {

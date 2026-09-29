@@ -2,13 +2,12 @@
 
 import ToggleBookmark from "@/components/ToggleBookmark.vue";
 import {Link} from "@inertiajs/vue3";
-import type {Component} from "vue";
+import movieicon from "@/components/icons/MovieIcon.vue";
+import tvicon from "@/components/icons/TVIcon.vue";
 
 interface Props {
     filtered: Array<items> | undefined;
     filter: string
-    movieicon: Component;
-    tvicon: Component;
 }
 
 interface items {

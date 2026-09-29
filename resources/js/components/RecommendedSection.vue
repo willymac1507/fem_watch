@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import {Link} from "@inertiajs/vue3";
 import ToggleBookmark from "@/components/ToggleBookmark.vue";
-import type {Component} from "vue";
+import tvicon from "@/components/icons/TVIcon.vue";
+import movieicon from "@/components/icons/MovieIcon.vue";
+import SectionLayout from "@/components/SectionLayout.vue";
 
 interface Props {
     recommended: Array<items>;
-    movieicon: Component;
-    tvicon: Component;
 }
 
 interface items {
@@ -29,8 +29,7 @@ defineProps<Props>();
 </script>
 
 <template>
-    <div class="flex flex-col w-full max-w-screen">
-        <h2 class="text-heading-l">Recommended For You</h2>
+    <SectionLayout heading="Recommended">
         <div class="gap-6 w-full grid grid-cols-4 mt-2">
             <div v-for="item in recommended" :key="item.id"
                  class="relative flex flex-col gap-1">
@@ -51,7 +50,9 @@ defineProps<Props>();
                 <ToggleBookmark :item="item"/>
             </div>
         </div>
-    </div>
+    </SectionLayout>
+
+
 </template>
 
 <style scoped>

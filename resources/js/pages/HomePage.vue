@@ -3,15 +3,12 @@ import {Head, router} from '@inertiajs/vue3';
 import {home} from '@/routes';
 import {Input} from "@/components/ui/input";
 import searchIcon from "@/components/SearchIcon.vue";
-import {Toaster} from "@/components/ui/sonner";
-import {computed, Reactive, ref, useAttrs, watch} from "vue";
-import {toast} from "vue-sonner";
+import {computed, Reactive, ref, useAttrs} from "vue";
 import TrendingSection from "@/components/TrendingSection.vue";
 import RecommendedSection from "@/components/RecommendedSection.vue";
-import MovieIcon from "@/components/icons/MovieIcon.vue";
-import TVIcon from "@/components/icons/TVIcon.vue";
 import FilteredSection from "@/components/FilteredSection.vue";
 import debounce from "lodash/debounce";
+import MoviesSection from "@/components/MoviesSection.vue";
 
 interface Flash {
     success: string | null | undefined;
@@ -20,7 +17,10 @@ interface Flash {
 }
 
 interface Props {
-    library: Array<items>;
+    library?: Array<items>;
+    movies?: Array<items>;
+    shows?: Array<items>;
+    bookmarked?: Array<items>;
     flash: Reactive<Flash>;
     filtered: items[];
     search?: string;
@@ -58,13 +58,8 @@ const showTrending = computed(() => {
 });
 
 const showRecommended = computed(() => {
-    return !props.filtered;
-})
-
-watch(() => props.flash.success, (message) => {
-    if (!message) return;
-    toast.success(message);
-})
+    return !props.movies && !props.filtered;
+});
 
 defineOptions({
     layout: {
@@ -83,6 +78,7 @@ const submit = debounce(() => {
         preserveState: true,
     });
 }, 500)
+
 </script>
 
 
@@ -96,7 +92,9 @@ const submit = debounce(() => {
         <form @submit.prevent="submit">
             <label class="flex items-center gap-2" for="search">
                 <component :is="searchIcon"></component>
-                <Input v-model="searchValue"
+                <Input id="search"
+                       ref="searchField"
+                       v-model="searchValue"
                        class="text-heading-m placeholder:text-heading-m border-0"
                        name="search"
                        placeholder="Search for movies or TV series"
@@ -110,23 +108,20 @@ const submit = debounce(() => {
         <div class="scroll-fade-y scrollbar-none overflow-y-auto h-full">
             <TrendingSection
                 v-if="showTrending"
-                :movieicon="MovieIcon"
                 :trending="trending"
-                :tvicon="TVIcon"
                 class="mb-4"/>
             <RecommendedSection
                 v-if="showRecommended"
-                :movieicon="MovieIcon"
                 :recommended="recommended"
-                :tvicon="TVIcon"
             />
             <FilteredSection v-if="filtered"
                              :filter="searchValue"
                              :filtered="props.filtered"
-                             :movieicon="MovieIcon"
-                             :tvicon="TVIcon"/>
+            />
+            <MoviesSection
+                v-if="movies"
+                :movies="movies"/>
         </div>
-        <Toaster/>
 
     </div>
 </template>

@@ -2,12 +2,11 @@
 
 import {Link} from "@inertiajs/vue3";
 import ToggleBookmark from "./ToggleBookmark.vue";
-import type {Component} from "vue";
+import tvicon from "@/components/icons/TVIcon.vue";
+import movieicon from "@/components/icons/MovieIcon.vue";
 
 interface Props {
     trending: Array<items>;
-    movieicon: Component;
-    tvicon: Component;
 }
 
 defineOptions({

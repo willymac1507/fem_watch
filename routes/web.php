@@ -7,7 +7,7 @@ Route::inertia('/', 'Welcome')->name('welcome');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/home', [LibraryController::class, 'index'])->name('home');
-    Route::post('/home', [LibraryController::class, 'search'])->name('home.search');
+    Route::get('/movies', [LibraryController::class, 'movies'])->name('movies');
     Route::post('/library/toggle-bookmark', [LibraryController::class, 'update'])->name('library.update');
 });
 

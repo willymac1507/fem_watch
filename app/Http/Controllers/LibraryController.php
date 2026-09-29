@@ -16,7 +16,7 @@ class LibraryController extends Controller
         $search = $request->input('search');
 
         return Inertia::render('HomePage', [
-            'library' => Library::all(),
+            'library' => ! $search ? Library::all() : null,
             'filtered' => $search ? Library::where('title', 'like', '%'.$search.'%')->get() : '',
             'search' => $search,
         ]);
@@ -25,9 +25,17 @@ class LibraryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function movies(Request $request)
     {
-        //
+        $search = $request->input('search');
+        $library = Library::where('category', 'like', 'movie')->get();
+        $filtered = $search ? $library::where('title', 'like', '%'.$search.'%')->get() : '';
+
+        return Inertia::render('HomePage', [
+            'movies' => ! $search ? $library : null,
+            'filtered' => $search ? $filtered : '',
+            'search' => $search,
+        ]);
     }
 
     /**
@@ -47,6 +55,8 @@ class LibraryController extends Controller
         $item->update([
             'bookmarked' => ! $item->bookmarked,
         ]);
+
+        return redirect()->back()->with('success', 'Bookmarked!');
     }
 
     /**
