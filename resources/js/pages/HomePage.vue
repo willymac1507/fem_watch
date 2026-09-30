@@ -1,50 +1,24 @@
 <script lang="ts" setup>
-import {Head, router} from '@inertiajs/vue3';
 import {home} from '@/routes';
-import {Input} from "@/components/ui/input";
-import searchIcon from "@/components/SearchIcon.vue";
-import {computed, Reactive, ref, useAttrs} from "vue";
+import {computed, Reactive} from "vue";
 import TrendingSection from "@/components/TrendingSection.vue";
 import RecommendedSection from "@/components/RecommendedSection.vue";
 import FilteredSection from "@/components/FilteredSection.vue";
-import debounce from "lodash/debounce";
-import MoviesSection from "@/components/MoviesSection.vue";
+import ContentContainer from "@/components/app/ContentContainer.vue";
+import {Flash, Items} from "@/types/library"
 
-interface Flash {
-    success: string | null | undefined;
-    error: string | null | undefined;
-    warning: string | null | undefined;
-}
 
 interface Props {
-    library?: Array<items>;
-    movies?: Array<items>;
-    shows?: Array<items>;
-    bookmarked?: Array<items>;
+    library?: Array<Items>;
     flash: Reactive<Flash>;
-    filtered: items[];
+    filtered?: Array<Items>;
     search?: string;
 }
 
-interface items {
-    id: number;
-    title: string;
-    thumb_trending_large: string;
-    thumb_trending_small: string;
-    thumb_large: string;
-    thumb_small: string;
-    thumb_medium: string;
-    year: number;
-    category: string;
-    rating: string;
-    bookmarked: boolean;
-    trending: boolean;
-}
-
-const attrs = useAttrs();
-
 const props = defineProps<Props>();
-const searchValue = ref(props.search ?? '')
+const searchValue = computed(() => {
+    return props.search ?? ''
+});
 const trending = computed(() => {
     return props.library ? props.library.filter(item => item.trending) : [];
 });
@@ -54,11 +28,16 @@ const recommended = computed(() => {
 });
 
 const showTrending = computed(() => {
-    return trending.value.length > 0 && props.filtered.length === 0;
+    if (props.filtered) {
+        return trending.value.length > 0 && props.filtered.length === 0;
+    } else {
+        return trending.value.length > 0;
+    }
+
 });
 
 const showRecommended = computed(() => {
-    return !props.movies && !props.filtered;
+    return !props.filtered;
 });
 
 defineOptions({
@@ -72,38 +51,11 @@ defineOptions({
     },
 });
 
-const submit = debounce(() => {
-    router.get('/home', {
-        search: searchValue.value,
-        preserveState: true,
-    });
-}, 500)
-
 </script>
 
 
 <template>
-    <Head title="Home"/>
-
-    <div id="container"
-         class="max-h-[calc(100vh-64px)] my-8 flex flex-1 flex-col gap-4 overflow-x-auto rounded-xl pe-4 pb-8 pt-12"
-         v-bind="attrs"
-    >
-        <form @submit.prevent="submit">
-            <label class="flex items-center gap-2" for="search">
-                <component :is="searchIcon"></component>
-                <Input id="search"
-                       ref="searchField"
-                       v-model="searchValue"
-                       class="text-heading-m placeholder:text-heading-m border-0"
-                       name="search"
-                       placeholder="Search for movies or TV series"
-                       type="text"
-                       @input="submit"/>
-            </label>
-
-        </form>
-
+    <ContentContainer :search-value="searchValue" title="Home">
 
         <div class="scroll-fade-y scrollbar-none overflow-y-auto h-full">
             <TrendingSection
@@ -116,12 +68,9 @@ const submit = debounce(() => {
             />
             <FilteredSection v-if="filtered"
                              :filter="searchValue"
-                             :filtered="props.filtered"
+                             :filtered="filtered"
             />
-            <MoviesSection
-                v-if="movies"
-                :movies="movies"/>
         </div>
 
-    </div>
+    </ContentContainer>
 </template>

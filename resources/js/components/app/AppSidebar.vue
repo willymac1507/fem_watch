@@ -32,7 +32,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'TV',
-        href: {method: 'get', url: '/tv'},
+        href: {method: 'get', url: '/tv-series'},
         icon: TvNavIcon,
     },
     {

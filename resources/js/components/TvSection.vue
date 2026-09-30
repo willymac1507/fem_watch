@@ -4,7 +4,7 @@ import ItemLayout from "@/components/ItemLayout.vue";
 import {Items} from "@/types/library";
 
 interface Props {
-    movies: Array<Items>;
+    series: Array<Items>;
 }
 
 
@@ -12,8 +12,8 @@ defineProps<Props>();
 </script>
 
 <template>
-    <SectionLayout heading="Movies">
-        <ItemLayout :items="movies"/>
+    <SectionLayout heading="TV Series">
+        <ItemLayout :items="series"/>
     </SectionLayout>
 
 </template>

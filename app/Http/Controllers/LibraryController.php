@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Library;
+use App\Services\LibraryService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class LibraryController extends Controller
 {
+    public function __construct(
+        private readonly LibraryService $libraryService,
+    ) {}
+
     /**
      * Display a listing of the resource.
      */
@@ -16,8 +21,8 @@ class LibraryController extends Controller
         $search = $request->input('search');
 
         return Inertia::render('HomePage', [
-            'library' => ! $search ? Library::all() : null,
-            'filtered' => $search ? Library::where('title', 'like', '%'.$search.'%')->get() : '',
+            'library' => ! $search ? $this->libraryService->getFullLibrary() : null,
+            'filtered' => $search ? $this->libraryService->filterLibrary($search, 'all') : null,
             'search' => $search,
         ]);
     }
@@ -25,15 +30,24 @@ class LibraryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function movies(Request $request)
+    public function moviesIndex(Request $request)
     {
         $search = $request->input('search');
-        $library = Library::where('category', 'like', 'movie')->get();
-        $filtered = $search ? $library::where('title', 'like', '%'.$search.'%')->get() : '';
 
-        return Inertia::render('HomePage', [
-            'movies' => ! $search ? $library : null,
-            'filtered' => $search ? $filtered : '',
+        return Inertia::render('MoviesPage', [
+            'movies' => ! $search ? $this->libraryService->getMovies() : null,
+            'filtered' => $search ? $this->libraryService->filterLibrary($search, 'Movie') : null,
+            'search' => $search,
+        ]);
+    }
+
+    public function tvSeriesIndex(Request $request)
+    {
+        $search = $request->input('search');
+
+        return Inertia::render('TVPage', [
+            'series' => ! $search ? $this->libraryService->getTvSeries() : null,
+            'filtered' => $search ? $this->libraryService->filterLibrary($search, 'TV Series') : null,
             'search' => $search,
         ]);
     }

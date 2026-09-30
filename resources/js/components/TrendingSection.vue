@@ -4,30 +4,15 @@ import {Link} from "@inertiajs/vue3";
 import ToggleBookmark from "./ToggleBookmark.vue";
 import tvicon from "@/components/icons/TVIcon.vue";
 import movieicon from "@/components/icons/MovieIcon.vue";
+import {Items} from "@/types/library";
 
 interface Props {
-    trending: Array<items>;
+    trending: Array<Items>;
 }
 
 defineOptions({
     inheritAttrs: false,
 });
-
-
-interface items {
-    id: number;
-    title: string;
-    thumb_trending_large: string;
-    thumb_trending_small: string;
-    thumb_large: string;
-    thumb_small: string;
-    thumb_medium: string;
-    year: number;
-    category: string;
-    rating: string;
-    bookmarked: boolean;
-    trending: boolean;
-}
 
 defineProps<Props>();
 
